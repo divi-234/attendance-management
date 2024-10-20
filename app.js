@@ -29,12 +29,13 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to fetch attendance data from the backend
     async function fetchAttendanceData(className) {
         try {
-            const response = await fetch(`http://localhost:3000/attendance-data?class=${className}`);
+            const response = await fetch(`https://attendance-management-rvzk.onrender.com/attendance-data?class=${className}`);
             return await response.json();
         } catch (error) {
             console.error("Error fetching attendance data:", error);
         }
     }
+
 
     // Function to render the chart
     function renderChart(attendanceData) {
