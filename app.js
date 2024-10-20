@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to submit attendance data to the backend
     async function submitAttendance(className, presentCount, absentCount) {
         try {
-            await fetch('http://localhost:3000/submit-attendance', {
+            await fetch('https://attendance-management-rvzk.onrender.com/submit-attendance', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
