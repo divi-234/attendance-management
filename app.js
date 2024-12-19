@@ -1,91 +1,129 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const submitButton = document.getElementById('submit-btn');
-    const classSelect = document.getElementById('class-select');
-    const presentInput = document.getElementById('present-input');
-    const absentInput = document.getElementById('absent-input');
-    const chartCanvas = document.getElementById('attendanceChart');
-
+    const classSelect = document.getElementById('classSelect');
+    const attendanceForm = document.getElementById('attendanceForm');
+    const resetButton = document.getElementById('resetButton');
+    const ctx = document.getElementById('attendanceChart').getContext('2d');
+  
     let attendanceChart;
-
-    // Function to submit attendance data to the backend
-    async function submitAttendance(className, presentCount, absentCount) {
-        try {
-            await fetch('https://attendance-management-rvzk.onrender.com/submit-attendance', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    className,
-                    present: presentCount,
-                    absent: absentCount
-                })
-            });
-        } catch (error) {
-            console.error("Error submitting attendance:", error);
-        }
-    }
-
-    // Function to fetch attendance data from the backend
-    async function fetchAttendanceData(className) {
-        try {
-            const response = await fetch(`https://attendance-management-rvzk.onrender.com/attendance-data?class=${className}`);
-            return await response.json();
-        } catch (error) {
-            console.error("Error fetching attendance data:", error);
-        }
-    }
-
-
-    // Function to render the chart
+  
+    // Function to render chart
     function renderChart(attendanceData) {
-        if (attendanceChart) {
-            attendanceChart.destroy();  // Destroy existing chart to avoid canvas re-use error
-        }
-
-        const labels = ['Present', 'Absent'];
-        const data = attendanceData ? [attendanceData.present, attendanceData.absent] : [0, 0];
-
-        attendanceChart = new Chart(chartCanvas, {
-            type: 'pie', // or 'bar'
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: data,
-                    backgroundColor: ['#4CAF50', '#FF6384']
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false
+      if (attendanceChart) {
+        attendanceChart.destroy(); // Destroy previous chart instance to avoid duplicate charts
+      }
+  
+      attendanceChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Student 1', 'Student 2'],
+          datasets: [{
+            label: 'Days Present',
+            data: attendanceData,
+            backgroundColor: ['rgba(75, 192, 192, 0.6)', 'rgba(153, 102, 255, 0.6)'],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
             }
-        });
+          }
+        }
+      });
     }
-
-    // When the submit button is clicked
-    submitButton.addEventListener('click', async function () {
-        const className = classSelect.value;
-        const presentCount = parseInt(presentInput.value) || 0;
-        const absentCount = parseInt(absentInput.value) || 0;
-
-        // Send attendance data to the backend
-        await submitAttendance(className, presentCount, absentCount);
-
-        // Fetch updated attendance data and re-render the chart
-        const attendanceData = await fetchAttendanceData(className);
-        renderChart(attendanceData);
+  
+    // Function to fetch attendance data from the backend for selected class
+    async function fetchAttendanceData(className) {
+      try {
+        const response = await fetch(`http://localhost:3000/attendance/${className}`);
+        const data = await response.json();
+        if (response.status === 200) {
+          renderChart(data.attendanceData);
+        } else {
+          alert('Error fetching attendance data');
+        }
+      } catch (error) {
+        console.error('Error fetching attendance data:', error);
+      }
+    }
+  
+    // Event listener for class selection
+    classSelect.addEventListener('change', (event) => {
+      const selectedClass = event.target.value;
+      fetchAttendanceData(selectedClass);
     });
-
-    // Initial chart rendering
-    const initialClass = classSelect.value;
-    fetchAttendanceData(initialClass).then(data => {
-        renderChart(data);
-    });
-
-    // Add event listener for class change
-    classSelect.addEventListener('change', async function () {
-        const selectedClass = this.value;
-        const attendanceData = await fetchAttendanceData(selectedClass);
-        renderChart(attendanceData);
-    });
-});
+  
+    // Function to handle attendance submission
+    async function submitAttendance(event) {
+      event.preventDefault();
+  
+      const className = document.getElementById('className').value;
+      const attendanceData = [
+        { studentId: 'S1', daysPresent: parseInt(document.getElementById('S1').value) },
+        { studentId: 'S2', daysPresent: parseInt(document.getElementById('S2').value) }
+      ];
+  
+      try {
+        const response = await fetch('http://localhost:3000/submitAttendance', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ className, attendanceData })
+        });
+  
+        const data = await response.json();
+        if (response.status === 200) {
+          alert(data.message);
+          fetchAttendanceData(className); // Refresh the chart with updated data
+        } else {
+          alert('Error submitting attendance');
+        }
+      } catch (error) {
+        console.error('Error submitting attendance:', error);
+        alert('Error submitting attendance');
+      }
+    }
+  
+    // Function to reset attendance data
+    async function resetAttendance() {
+      const className = document.getElementById('className').value;
+  
+      try {
+        const response = await fetch('http://localhost:3000/resetAttendance', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ className })
+        });
+  
+        const data = await response.json();
+        if (response.status === 200) {
+          alert(data.message);
+          document.getElementById('S1').value = 0;
+          document.getElementById('S2').value = 0;
+          fetchAttendanceData(className); // Refresh the chart with reset data
+        } else {
+          alert('Error resetting attendance');
+        }
+      } catch (error) {
+        console.error('Error resetting attendance:', error);
+        alert('Error resetting attendance');
+      }
+    }
+  
+    // Add event listeners
+    if (attendanceForm) {
+      attendanceForm.addEventListener('submit', submitAttendance);
+    }
+  
+    if (resetButton) {
+      resetButton.addEventListener('click', resetAttendance);
+    }
+  
+    // Load initial data for the first selected class
+    fetchAttendanceData(classSelect.value);
+  });
+  

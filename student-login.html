@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url(desk-workspace-with-various-elements.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.login-container {
+    background-color: transparent;
+    padding: 20px;
+    border-radius: 10px;
+    width: 30%;
+}
+
+h2 {
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: transparent;
+    color: black;
+}
+
+
+
+button{
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 20px;
+    
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+#error-message {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.dvi{
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: center; /* Center buttons horizontally */
+    position: absolute; /* Position relative to the body */
+    top: 0; /* Align to the top */
+    right: 75%; /* Align to the right */
+    margin: 10px; /* Optional spacing from the edges */
+}
+
+.dvi button{
+    background-color: black;
+}
+
+.div{
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: center; /* Center buttons horizontally */
+    position: absolute; /* Position relative to the body */
+    top: 0; /* Align to the top */
+    right: 50%; /* Align to the right */
+    margin: 10px; /* Optional spacing from the edges */
+}
+
+.div button{
+    background-color: black;
+}
+
+.dvv{
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: center; /* Center buttons horizontally */
+    position: absolute; /* Position relative to the body */
+    top: 0; /* Align to the top */
+    right: 25%; /* Align to the right */
+    margin: 10px; /* Optional spacing from the edges */
+}
+
+.dvv button{
+    background-color: black;
+}
+
+    </style>
+</head>
+<body>
+    <a class="dvi" href="student-login.html"><button>student-login</button></a>
+    <a class="div" href="teacher-login.html"><button>teacher-login</button></a>
+    <a class="dvv" href="admin-login.html"><button>admin-login</button></a>
+    <div class="login-container">
+        <h2>Student Login</h2>
+        <form id="studentLoginForm">
+            <label for="email">Email:</label>
+            <input type="email" id="studentEmail" placeholder="please enter your email" name="email" required>
+            <br><br>
+            <label for="password">Password:</label>
+            <input type="password" id="studentPassword" placeholder="please enter your password" name="password" required>
+            <br><br>
+            <button type="submit">Login</button>
+        </form>
+        <p id="error-message" style="color: red;"></p>
+    </div>
+    <script src="apps.js"></script>
+</body>
+</html>

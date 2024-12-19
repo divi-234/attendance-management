@@ -1,42 +1,50 @@
 const express = require('express');
 const cors = require('cors');
-const bodyParser = require('body-parser');
-
 const app = express();
-const PORT = 3000;
+const port = 3000;
 
-app.use(cors()); // Enable CORS
-app.use(bodyParser.json()); // Parse JSON bodies
+app.use(cors());
+app.use(express.json());
 
-let attendanceData = {
-    classA: { present: 0, absent: 0 },
-    classB: { present: 0, absent: 0 }
+// In-memory data storage
+const attendanceRecords = {
+  'Class A': [{ studentId: 'S1', daysPresent: 0 }, { studentId: 'S2', daysPresent: 0 }],
+  'Class B': [{ studentId: 'S1', daysPresent: 0 }, { studentId: 'S2', daysPresent: 0 }]
 };
 
-// Endpoint to submit attendance data
-app.post('/submit-attendance', (req, res) => {
-    const { className, present, absent } = req.body;
-
-    if (attendanceData[className]) {
-        attendanceData[className].present += present;
-        attendanceData[className].absent += absent;
-        res.status(200).send('Attendance recorded successfully.');
-    } else {
-        res.status(400).send('Invalid class name.');
-    }
+// Endpoint to get attendance data for a class
+app.get('/attendance/:className', (req, res) => {
+  const className = req.params.className;
+  if (attendanceRecords[className]) {
+    const attendanceData = attendanceRecords[className].map(record => record.daysPresent);
+    res.status(200).json({ attendanceData });
+  } else {
+    res.status(404).json({ message: 'Class not found' });
+  }
 });
 
-// Endpoint to fetch attendance data for a specific class
-app.get('/attendance-data', (req, res) => {
-    const className = req.query.class; // Get class from query parameters
-    if (attendanceData[className]) {
-        res.json(attendanceData[className]);
-    } else {
-        res.status(404).send('Class not found');
-    }
+// Endpoint to submit attendance
+app.post('/submitAttendance', (req, res) => {
+  const { className, attendanceData } = req.body;
+  if (attendanceRecords[className]) {
+    attendanceRecords[className] = attendanceData;
+    res.status(200).json({ message: 'Attendance submitted successfully' });
+  } else {
+    res.status(404).json({ message: 'Class not found' });
+  }
 });
 
-// Start the server
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+// Endpoint to reset attendance
+app.post('/resetAttendance', (req, res) => {
+  const { className } = req.body;
+  if (attendanceRecords[className]) {
+    attendanceRecords[className] = [{ studentId: 'S1', daysPresent: 0 }, { studentId: 'S2', daysPresent: 0 }];
+    res.status(200).json({ message: 'Attendance reset successfully' });
+  } else {
+    res.status(404).json({ message: 'Class not found' });
+  }
+});
+
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
 });

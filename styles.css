@@ -1,0 +1,158 @@
+/* General body styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: black;
+    background-image: url(photo-1650802218127-3b9c06de0d29.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Container for content */
+.container {
+    width: 80%;
+    max-width: 1200px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px auto;
+}
+
+/* Header styling */
+h1, h2 {
+    text-align: center;
+    color: black;
+    font-weight: bold;
+}
+
+/* Form styles */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+}
+
+/* Input field styling */
+input[type="text"], input[type="password"], select {
+    width: 80%;
+    max-width: 400px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+}
+
+/* Button styling */
+button {
+    padding: 12px 25px;
+    font-size: 16px;
+    color: white;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #007BFF;
+    color: white;
+}
+
+td {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Chart container */
+#chartContainer {
+    width: 100%;
+    margin-top: 30px;
+    text-align: center;
+}
+
+/* Styling the reset button */
+#resetButton {
+    padding: 10px 20px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#resetButton:hover {
+    background-color: #c82333;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+    input[type="text"], input[type="password"], select {
+        width: 90%;
+    }
+
+    table, th, td {
+        font-size: 14px;
+    }
+}
+
+
+img{
+    width: 140px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    height: 140px;
+}
+
+header{
+    font-size: 50px;
+    font-weight: 600;
+    position: absolute;
+    text-align: center;
+    top: 50px;
+    left: 40px;
+}
+
+.but{
+    position: absolute;
+    right: 20px;
+    bottom: 10px;
+    width: 130px;
+}
+
+nav{
+    height: 140px;
+}

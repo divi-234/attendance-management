@@ -3,73 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attendance Management System</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        select, input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        canvas {
-            display: block;
-            margin: 20px auto;
-            max-height: 400px; /* Set a max height for the chart */
-        }
-    </style>
+    <title>Attendance Visualization</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <nav>
+        <header>Attendance Management System</header>
+        <a href="https://ritchennai.org/">
+        <img src="WhatsApp Image 2024-10-22 at 21.25.56_c2b8a075.png"></a>
+    </nav>
+    <h1>Attendance Visualization</h1>
 
-    <div class="container">
-        <h1>Attendance Management System</h1>
-        <select id="class-select">
-            <option value="classA">Class A</option>
-            <option value="classB">Class B</option>
-        </select>
+    <label for="classSelect">Select Class:</label>
+    <select id="classSelect">
+        <option value="Class A">classA</option>
+        <option value="Class B">classB</option>
+    </select>
 
-        <input id="present-input" type="number" placeholder="Present Count" min="0">
-        <input id="absent-input" type="number" placeholder="Absent Count" min="0">
-
-        <button id="submit-btn">Submit Attendance</button>
-
+    <div>
         <canvas id="attendanceChart"></canvas>
     </div>
 
-    <!-- Load Chart.js from CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Load your custom JavaScript file -->
+    <h2>Submit Attendance</h2>
+    <form id="attendanceForm">
+
+        <label for="className">Class:</label>
+        <input type="text" id="className" placeholder="e.g., Class A" required>
+        
+        <label for="S1">Present</label>
+        <input type="number" id="S1" value="0" min="0">
+
+        <label for="S2">Absent</label>
+        <input type="number" id="S2" value="0" min="0">
+
+        <button type="submit" >Submit Attendance</button>
+    </form>
+
+    <button id="resetButton">Reset Attendance</button>
+
     <script src="app.js"></script>
+
+    <footer>
+        <a href="student-login.html">
+        <button class="but">LogOut</button></a>
+    </footer>
 </body>
 </html>
